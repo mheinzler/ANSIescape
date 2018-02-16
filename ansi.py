@@ -403,7 +403,7 @@ class AnsiColorBuildCommand(Default.exec.ExecCommand):
         super(AnsiColorBuildCommand, self).on_data(proc, out_data.encode(self.encoding))
 
         # send ansi command
-        view.run_command('ansi', args={"regions": json_ansi_regions})
+        sublime.set_timeout(lambda: view.run_command('ansi', args={"regions": json_ansi_regions}), 1)
 
     def on_data(self, proc, data):
         if self.process_trigger == "on_data":
