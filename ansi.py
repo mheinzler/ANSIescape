@@ -375,6 +375,11 @@ class AnsiColorBuildCommand(Default.exec.ExecCommand):
         if needDataCodec:
             str_data = str_data.decode(self.encoding)
 
+        # Sublime will silently remove carriage returns from the data which
+        # then messes with the below region calculations. Remove them here to
+        # make sure that the calculated positions stay correct.
+        str_data = str_data.replace('\r', '')
+
         # replace unsupported ansi escape codes before going forward: 2m 4m 5m 7m 8m
         unsupported_pattern = r'\x1b\[(0;)?[24578]m'
         str_data = re.sub(unsupported_pattern, "\x1b[1m", str_data)
